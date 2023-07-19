@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
+const { Client, IntentsBitField, EmbedBuilder, ActivityType } = require("discord.js");
+const eventHandler = require('./handlers/eventHandler');
 
 const client = new Client({
   intents: [
@@ -12,97 +13,38 @@ const client = new Client({
 
 client.on("ready", (c) => {
   console.log(`✔ ${c.user.tag} is online`);
-});
-// Addition Command
-  /*
-client.on('interactionCreate', (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === 'add') {
-      const num1 = interaction.options.get('first-number').value;
-      const num2 = interaction.options.get('second-number').value;
-
-      interaction.reply(`The sum is ${num1 + num2}`);
-    }
-
+  setInterval(() => {
+    let random = Math.floor(Math.random() * status.length);
+    client.user.setActivity(status[random]);
+  }, 10000);
 });
 
-client.on('interactionCreate', (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === 'embed') {
-    const embed = new EmbedBuilder()
-      .setTitle('Test Embed')
-      .setDescription('This is a test embed description')
-      .setColor('Random')
-      .addFields(
-        {
-          name: 'Field title',
-          value: 'Some random value',
-          inline: true,
-        },
-        {
-          name: '2nd Field title',
-          value: 'Some random value',
-          inline: true,
-        }
-      );
+// Reformed Bot Status
+let status = [
+  {
+    name: 'twitch.tv/reformedcomeback',
+  type: ActivityType.Streaming,
+  url: 'https://www.youtube.com/watch?v=eBGIQ7ZuuiU',
+  },
+  {
+    name: 'reformed.com',
+  type: ActivityType.Listening,
+  url: 'https://music.apple.com/us/artist/yeat/1318094493',
+  },
+  {
+    name: 'reformed.io',
+  type: ActivityType.Playing,
+  //url: 'https://www.youtube.com/watch?v=eBGIQ7ZuuiU',
+  },
+  {
+    name: 'reformed.site',
+  type: ActivityType.Watching,
+  url: 'https://www.youtube.com/watch?v=eBGIQ7ZuuiU',
+  },
+]
 
-    interaction.reply({ embeds: [embed] });
-  }
-});
-
-client.on('messageCreate', (message) => {
-  if (message.content === 'embed') {
-    const embed = new EmbedBuilder()
-      .setTitle('Test Embed')
-      .setDescription('This is a Test Embed embed description')
-      .setColor('Random')
-      .addFields(
-        {
-          name: 'Field title',
-          value: 'Some random value',
-          inline: true,
-        },
-        {
-          name: '2nd Field title',
-          value: 'Some random value',
-          inline: true,
-        }
-      );
-
-    message.channel.send({ embeds: [embed] });
-  }
-});
-  */
-
-client.on('interactionCreate', async (interaction) => {
-  try {
-    if (!interaction.isButton()) return;
-    await interaction.deferReply({ ephemeral: true });
-
-    const role = interaction.guild.roles.cache.get(interaction.customId);
-    if (!role) {
-      interaction.editReply({
-        content: "I couldn't find that role",
-      });
-      return;
-    }
-
-    const hasRole = interaction.member.roles.cache.has(role.id);
-
-    if (hasRole) {
-      await interaction.member.roles.remove(role);
-      await interaction.editReply(`The role ${role} has been removed.`);
-      return;
-    }
-
-    await interaction.member.roles.add(role);
-    await interaction.editReply(`The role ${role} has been added.`);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
+eventHandler(client);
 
 client.login(process.env.TOKEN);
