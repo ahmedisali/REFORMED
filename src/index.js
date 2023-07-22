@@ -12,8 +12,7 @@ const client = new Client({
 });
 
 client.on("ready", (c) => {
-  console.log(`✔ ${c.user.tag} is online`);
-
+  
   setInterval(() => {
     let random = Math.floor(Math.random() * status.length);
     client.user.setActivity(status[random]);
@@ -31,7 +30,7 @@ let status = [
   {
     name: 'reformed.com',
   type: ActivityType.Listening,
-  url: 'https://music.apple.com/us/artist/yeat/1318094493',
+  //url: '',
   },
   {
     name: 'reformed.io',

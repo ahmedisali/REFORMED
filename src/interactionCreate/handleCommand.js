@@ -1,5 +1,5 @@
-const { devs, testServer } = require('../../../config.json');
-const getLocalCommands = require('../../utils/getLocalCommands');
+const { devs, testServer } = require('../../config.json');
+const getLocalCommands = require('../utils/getLocalCommands');
 
 module.exports = async (client, interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -44,7 +44,7 @@ module.exports = async (client, interaction) => {
         }
       }
     }
-
+    
     if (commandObject.botPermissions?.length) {
       for (const permission of commandObject.botPermissions) {
         const bot = interaction.guild.members.me;
@@ -58,7 +58,7 @@ module.exports = async (client, interaction) => {
         }
       }
     }
-
+    
     await commandObject.callback(client, interaction);
   } catch (error) {
     console.log(`There was an error running this command: ${error}`);
