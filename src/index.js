@@ -4,6 +4,7 @@ const { CommandHandler } = require("djs-commander");
 const path = require("path");
 
 const client = new Client({
+
   intents: [
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.GuildMembers,
@@ -29,7 +30,7 @@ client.on("ready", (c) => {
   setInterval(() => {
     let random = Math.floor(Math.random() * status.length);
     client.user.setActivity(status[random]);
-  }, 10000);
+  }, 100000);
 });
 
 // Reformed Bot Status
@@ -46,6 +47,7 @@ let status = [
   },
   {
     name: "reformed.io",
+
     type: ActivityType.Playing,
     url: "https://www.youtube.com/watch?v=eBGIQ7ZuuiU",
   },
